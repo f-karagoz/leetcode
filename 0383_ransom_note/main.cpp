@@ -26,54 +26,20 @@ class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine)
     {
-        unsigned short charsFound = 0;
+        unsigned short ransomNoteCount[26] = { 0 };
+        unsigned short magazineCount[26] = { 0 };
 
-        unsigned short* usedIds;
-        usedIds = (unsigned short*)malloc(magazine.length()*2); // unsigned short is has 2*string sizes
+        for (int i = 0; i < ransomNote.length(); i++)
+            ransomNoteCount[ransomNote[i] - 97]++;
 
-        if (usedIds == NULL)
-            return 0;
+        for (int i = 0; i < magazine.length(); i++)
+            magazineCount[magazine[i] - 97]++;
 
-        for (int i = 0; i < ransomNote.length(); i++)   // ransomeNote loop
-        {
-            for (int j = 0; j < magazine.length(); j++) // magazine loop
-            {
-                if (ransomNote[i] == magazine[j]) // Found it
-                {
-                    bool idUsed = false;
+        for (int i = 0; i < 26; i++)
+            if (magazineCount[i] - ransomNoteCount[i] < 0) return 0;
 
-                    for (int k = 0; k < charsFound; k++) // Check if we found it before
-                    {
-                        if (j == usedIds[k]) // Id is used before
-                        {
-                            idUsed = true;
-                        }
-                    }
-
-                    if (idUsed)
-                        continue;
-                    else
-                    {
-                        usedIds[charsFound] = j;
-                        charsFound++;
-                        break;  // break from the magazine loop
-                    }
-                }
-                else
-                {
-                    if (j == magazine.length() - 1) // Last step, search failed for ransomeNote[i]
-                    {
-                        free(usedIds);
-                        return 0;
-                    }
-                    else
-                        continue; // continue searching, it will anyways
-                }
-            }
-        }
-
-        free(usedIds);
         return 1;
+
     }
 };
 

@@ -21,16 +21,37 @@ public:
     {
         int nContent = getN(head);
 
-        // if nContent is even like 4 we check for i=0,1 OK, if odd like 5 we check for i=0,1 OK
-        for (int i = 0; i < (nContent / 2); i++)
+        int* firstHalf = new int[nContent / 2];
+
+        // Fill a buffer with first half of the linked list's values
+        for (int i = 0; i < nContent / 2; i++)
         {
-            // compare the head+i th item with the head+nContent-1-i th item
-            if ( !( isPairsSame(head,i, nContent) ) )
+            /*
+            // check for the nullptr too
+            if (head->next == nullptr)
             {
-                return 0;
+                delete[] firstHalf;
+                return 0; // Error
             }
+            */
+            firstHalf[i] = head->val;
+            head = head->next;
         }
 
+        (nContent % 2 == 1) ? head = head->next : head = head ; // We do not care about the middle
+
+        for (int i = (nContent / 2) - 1; i >= 0; i--)
+        {
+            if (firstHalf[i] != head->val)
+            {
+                delete[] firstHalf;
+                return 0;
+            }
+
+            head = head->next;
+        }
+
+        delete[] firstHalf;
         return 1;
     }
 
@@ -79,25 +100,46 @@ public:
         else
             return 0;
     }
+
+    bool getValues(ListNode* head, int storage[], int size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            // check for the nullptr too
+            if (head->next == nullptr)
+            {
+                return 0; // Error
+            }
+            storage[i] = head->val;
+            head = head->next;
+        }
+
+        storage[size] = head->val;
+
+        return 1;
+
+    }
+
 };
 
 int main(void)
 {
     Solution solution;
 
-    
+    /*
     ListNode node4 = ListNode(9);
     ListNode node3 = ListNode(5, &node4);
     ListNode node2 = ListNode(0, &node3);
-    ListNode node1 = ListNode(5, &node2);
+    ListNode node1 = ListNode(4, &node2);
     ListNode node0 = ListNode(9, &node1); // head
+    */
     
-    /*
-    ListNode node3 = ListNode(10);
+    
+    ListNode node3 = ListNode(9);
     ListNode node2 = ListNode(5, &node3);
     ListNode node1 = ListNode(4, &node2);
-    ListNode node0 = ListNode(10, &node1); // head
-    */
+    ListNode node0 = ListNode(9, &node1); // head
+    
 
     printf("Address of head node is : %p\n", &node0);
     solution.isPalindrome(&node1);

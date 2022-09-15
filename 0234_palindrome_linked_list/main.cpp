@@ -25,7 +25,7 @@ public:
         for (int i = 0; i < (nContent / 2); i++)
         {
             // compare the head+i th item with the head+nContent-1-i th item
-            if (getValue(head, i) != getValue(head, nContent - 1 - i))
+            if ( !( isPairsSame(head,i, nContent) ) )
             {
                 return 0;
             }
@@ -46,21 +46,38 @@ public:
 
         return nContent;
     }
-
-    int getValue(ListNode* head, int n)      // Gathers the nth value from the list, 0th pos is the head
+    
+    bool isPairsSame(ListNode* head, int n, int nContent_)
     {
-        for (int i = 0; i < n; i++)
+        int i = 0;
+        for (; i < n; i++)
         {
             // check for the nullptr too
             if (head->next == nullptr)
             {
-                return -1; // Error
+                return 0; // Error
             }
 
             head = head->next;
         }
 
-        return head->val;
+        int val1 = head->val;               // First value of the pair
+
+        for (; i < nContent_ - 1 - n; i++)
+        {
+            // check for the nullptr too
+            if (head->next == nullptr)
+            {
+                return 0; // Error
+            }
+
+            head = head->next;
+        }
+
+        if (val1 == head->val)
+            return 1;
+        else
+            return 0;
     }
 };
 
@@ -68,18 +85,19 @@ int main(void)
 {
     Solution solution;
 
-    /*
-    ListNode node4 = ListNode(10);
+    
+    ListNode node4 = ListNode(9);
     ListNode node3 = ListNode(5, &node4);
     ListNode node2 = ListNode(0, &node3);
     ListNode node1 = ListNode(5, &node2);
-    ListNode node0 = ListNode(10, &node1); // head
-    */
-
+    ListNode node0 = ListNode(9, &node1); // head
+    
+    /*
     ListNode node3 = ListNode(10);
     ListNode node2 = ListNode(5, &node3);
-    ListNode node1 = ListNode(5, &node2);
+    ListNode node1 = ListNode(4, &node2);
     ListNode node0 = ListNode(10, &node1); // head
+    */
 
     printf("Address of head node is : %p\n", &node0);
     solution.isPalindrome(&node1);

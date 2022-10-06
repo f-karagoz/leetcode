@@ -16,29 +16,19 @@ class Solution
 public:
     ListNode* middleNode(ListNode* head)
     {
-        int sizeLL = nNodes(head);
-        int middleIndex = sizeLL / 2 + 1;
-
+        int sgn = 0;
         ListNode* result = head;
-
-        for (int i = 0; i < middleIndex-1; i++)
-            result = result->next;
-
-        return result;
-
-    }
-    
-    int nNodes(ListNode* head)
-    {
-        int n = 1;
 
         while (head->next != NULL)
         {
             head = head->next;
-            n++;
+            sgn = !sgn;
+            if (sgn)
+                result = result->next;
         }
 
-        return n;
+        return result;
+
     }
 
 };
@@ -62,7 +52,6 @@ int main(void)
 
 
     cout << "Address of head node is :" << &node0 << endl;
-    cout << "Size of Linked List is: " << solution.nNodes(&node0) << endl;
     cout << "Middle node is: " << solution.middleNode(&node0)->val << endl;
     return 0;
 }

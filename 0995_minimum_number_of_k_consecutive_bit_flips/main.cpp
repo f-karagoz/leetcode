@@ -9,46 +9,21 @@ public:
 	{
 		int flips = 0;
 		int size = nums.size();
-		int flippedFlag;
 		//cout << "size is : " << size << endl;
 
-		for (int i = 0; i <= size - k; i++)
-		{
-			flippedFlag = 0;
-
-			for (int j = 0; j <= size - k - i; j++)
-				if (nums[i] == 0)
-				{
-					// flip
-					for (int z = 0; z < k; z++)
-						nums[i + z] = !nums[i + z];
-					flips++;
-					flippedFlag = 1;
-				}
-
-			if (flippedFlag == 0 && checkForZero(nums) == 0)
-				break;
-		}
-
-		// Check if the operation was success
-		//if ( flips == 0)
-		for (auto x : nums)
-			if (x == 0)
+		for (int i = 0; i < size; i++)
+			if (nums[i] == 0)
 			{
-				flips = -1;
-				break;
+				// k window vs remaining size check
+				if (i + k > size)
+					return -1;
+				// flip
+				for (int j = i; j < k + i; j++)
+					nums[j] = !nums[j];
+				flips++;
 			}
-				
 
 		return flips;
-	}
-
-	int checkForZero(vector<int>& nums)
-	{
-		for (auto x : nums)
-			if (x == 0)
-				return 1;
-		return 0;
 	}
 };
 

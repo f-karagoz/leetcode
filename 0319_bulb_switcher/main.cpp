@@ -28,7 +28,7 @@ Solution sol;
 
 int main(void)
 {
-	sol.bulbSwitch(1);
+	sol.bulbSwitch(10000000);
 
 	cout << "hello" << endl;
 	return 0;

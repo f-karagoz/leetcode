@@ -9,7 +9,19 @@ return an array of all the integers in the range [1, n] that do not appear in nu
 
 class Solution {
 public:
-    vector<int> findDisappearedNumbers(vector<int>& nums) {
+    vector<int> findDisappearedNumbers(vector<int>& nums)
+	{
+		vector<int> result;
+
+		int* temp = (int*)calloc(nums.size(), sizeof(int));
+		for (int i = 0; i < nums.size(); ++i )
+			temp[nums[i]-1] = 1;	// 1 is a dummy value
+			
+		for (int i = 0; i < nums.size(); ++i)
+			if (temp[i] == 0)
+				result.push_back(i + 1);
+
+		return result;
 
     }
 };

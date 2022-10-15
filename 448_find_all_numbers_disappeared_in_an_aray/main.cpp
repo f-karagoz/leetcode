@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 /*
@@ -13,16 +14,13 @@ public:
 	{
 		vector<int> result;
 
-		int* temp = (int*)calloc(nums.size(), sizeof(int));
-		for (int i = 0; i < nums.size(); ++i )
-			temp[nums[i]-1] = 1;	// 1 is a dummy value
-			
-		for (int i = 0; i < nums.size(); ++i)
-			if (temp[i] == 0)
-				result.push_back(i + 1);
+		// brute-force
+		// linear search for each i index [0:n]
+		for (int i = 1; i <= nums.size(); ++i)
+			if (find(nums.begin(), nums.end(), i) == end(nums))
+				result.push_back(i);
 
 		return result;
-
     }
 };
 
@@ -31,5 +29,9 @@ Solution sol;
 int main(void)
 {
 	cout << "hellow" << endl;
+
+	vector<int> vTest = { 5,2,3,4 };
+
+	sol.findDisappearedNumbers(vTest); 
 	return 0;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+//#include <algorithm>
+#include <unordered_set>
 using namespace std;
 
 /*
@@ -12,15 +13,19 @@ class Solution {
 public:
     vector<int> findDisappearedNumbers(vector<int>& nums)
 	{
+		// hashset
+		// insert every nums[i] into hashset. t: O(n), m: O(n)		
+		unordered_set<int> s(begin(nums), end(nums));
+
 		vector<int> result;
 
-		// sort and binary search
-		sort(nums.begin(), nums.end());
-		for (int i = 1; i <= nums.size(); ++i)
-			if ( !binary_search(nums.begin(), nums.end(), i) )
+		// iterate over range and insert elements. t: O(n) 
+		for (int i = 1; i <= size(nums); ++i)
+			if (s.count(i) == 0)
 				result.push_back(i);
 		
 		return result;
+		// Total: time complexity: O(2n), memory compelexity O(n)
     }
 };
 

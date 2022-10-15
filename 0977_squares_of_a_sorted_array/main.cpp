@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>       // abs()
 using namespace std;
 
 /*
@@ -13,27 +14,25 @@ class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums)
     {
-        vector<int> result;
+        vector<int> result(nums.size());
 
-        for (int i = 0; i < nums.size(); ++i)
-            result.push_back(square(nums[i]));
+        // two pointers aproach
+        int l = 0;
+        int r = nums.size() - 1;
 
-        int changedFlag = 0;
-        for (int i = 0; i < result.size() - 1; ++i)
+        for (int i = nums.size() - 1; i >= 0; --i)
         {
-            changedFlag = 0;
-            for (int j = 0; j < result.size() - 1 - i; ++j)
-                if (result[j + 1] < result[j])
-                {
-                    int temp = result[j + 1];
-                    result[j + 1] = result[j];
-                    result[j] = temp;
-                    changedFlag = 1;
-                }
-            if (changedFlag == 0)
-                break;
+            if (abs(nums[l]) > abs(nums[r]))
+            {
+                result[i] = nums[l] * nums[l];
+                l++;
+            }  
+            else
+            {
+                result[i] = nums[r] * nums[r];
+                r--;
+            }
         }
-
 
         return result;
     }
@@ -43,13 +42,11 @@ Solution sol;
 
 int main(void)
 {
-
     vector<int> vTest = { -4,-1,0,3,10 }; // expected after method 0,1,9,16,100
-
-    //cout << "Test result is : " << sol.sortedSquares(vTest) << endl;
 
     for (auto x : sol.sortedSquares(vTest))
         cout << x << " ";
     cout << endl;
+
     return 0;
 }

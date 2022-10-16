@@ -18,15 +18,30 @@ struct ListNode
 
 class Solution
 {
-
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n)
     {
-     
+        ListNode* head_ = head;
+        queue<ListNode*> lastNNodes;
+
+        for (int i = 0; head->next != NULL; ++i)
+        {
+            lastNNodes.push(head);
+
+            // n + 1 elements stored in the queue
+            if (i > n - 1)
+                lastNNodes.pop();
+
+            head = head->next;
+        }
+
+        lastNNodes.front()->next = lastNNodes.front()->next->next;
+        return head_;
+
     }
 };
 
-Solution solution;
+Solution sol;
 
 int main(void)
 {
@@ -40,6 +55,24 @@ int main(void)
     ListNode node2 = ListNode(3, &node3);
     ListNode node1 = ListNode(2, &node2);
     ListNode node0 = ListNode(1, &node1); // head
+
+    ListNode* test = &node0;
+
+    while (test != NULL)
+    {
+        cout << test->val << ", ";
+        test = test->next;
+    }
+    cout << endl;
+
+    ListNode* result = sol.removeNthFromEnd(&node0, 2);
+
+    while (result != NULL)
+    {
+        cout << result->val << ", ";
+        result = result->next;
+    }    
+    cout << endl;
 
     return 0;
 }

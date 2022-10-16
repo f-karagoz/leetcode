@@ -67,58 +67,6 @@ public:
 
         return nContent;
     }
-    
-    bool isPairsSame(ListNode* head, int n, int nContent_)
-    {
-        int i = 0;
-        for (; i < n; i++)
-        {
-            // check for the nullptr too
-            if (head->next == nullptr)
-            {
-                return 0; // Error
-            }
-
-            head = head->next;
-        }
-
-        int val1 = head->val;               // First value of the pair
-
-        for (; i < nContent_ - 1 - n; i++)
-        {
-            // check for the nullptr too
-            if (head->next == nullptr)
-            {
-                return 0; // Error
-            }
-
-            head = head->next;
-        }
-
-        if (val1 == head->val)
-            return 1;
-        else
-            return 0;
-    }
-
-    bool getValues(ListNode* head, int storage[], int size)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            // check for the nullptr too
-            if (head->next == nullptr)
-            {
-                return 0; // Error
-            }
-            storage[i] = head->val;
-            head = head->next;
-        }
-
-        storage[size] = head->val;
-
-        return 1;
-
-    }
 
 };
 

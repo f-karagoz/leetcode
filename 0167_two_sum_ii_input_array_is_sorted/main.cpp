@@ -19,37 +19,26 @@ public:
     vector<int> twoSum(vector<int>& numbers, int target)
 	{
 		// aproach:
-		// we iterate over the range [1:n]
-		// two poniters: li, ri
-		// li starting from 0, compares values of ri
+		// shrinking the range from left and right
 
 		vector<int> result;
+		int li = 0;
+		int ri = numbers.size() - 1;
 
-		for (int li = 0, ri = 1; li < numbers.size(); ++li, ri = li + 1)
+		while (li != ri)
 		{
-			// no need to check for same number
-			if (li != 0 && numbers[li] == numbers[li - 1])
-				continue;
-
-			for (; ri < numbers.size(); ++ri)
-			{
-				if (numbers[li] + numbers[ri] == target)
-				{
-					result.push_back(li + 1);
-					result.push_back(ri + 1);
-					return result;				// found
-				}
-				else if (numbers[li] + numbers[ri] > target)
-					break;
-			}
-					
+			if (numbers[li] + numbers[ri] == target)
+				break;
+			else if (numbers[li] + numbers[ri] > target)
+				ri--;
+			else
+				li++;
 		}
 
-		// not found
-		result.push_back(-1);
-		result.push_back(-1);
-		return result;
+		if (li == ri)	// Not found case
+			return vector<int>({ -1,-1 });
 
+		return vector<int>({ li + 1, ri + 1 });
     }
 };
 

@@ -11,23 +11,31 @@ Note that you must do this in-place without making a copy of the array.
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-        // aproach: iterate over rage [1:n]
-        // when zero found shift the array by one to the left
-        // change last non-zero element to zero (last non-zero element was copied to left)
-        int zeroCount = 0;
-        for (int i = 0; i < nums.size() - 1 - zeroCount ; ++i)
+        // aproach: iterate over the the range [1:n]
+        // two pointers: li, ri
+        // the left index check for zero
+        // if so move the right index till non-zero found
+        // copy right index value to left index
+        // change right index value to zero
+
+        int li = 0;
+        int ri = 1;
+
+        for (int li = 0, ri = 1; li < nums.size(); ++li, ri = li + 1)   // O(n-k)
         {
-            if (nums[i] == 0)
-            {
-                zeroCount++;
+            if (nums[li] == 0)
+                for (; ri < nums.size(); ++ri)                          // O(n)
+                    if (nums[ri] != 0)              // search for non-zero element
+                    { 
+                        nums[li] = nums[ri];        // copy the non-zero element to li index
+                        nums[ri] = 0;               // set ri index to zero
+                        break;
+                    }
+            // if no none-zero element found operation is done
+            // no need to iterate over the remaining indexes of input array
+            if (ri == nums.size())
+                break;
 
-                for (int j = i; j < nums.size() - zeroCount; ++j)
-                {
-                    nums[j] = nums[j + 1];
-                }
-
-                nums[nums.size() - zeroCount] = 0;
-            }
         }
     }
 };
@@ -37,7 +45,7 @@ Solution sol;
 int main(void)
 {
     /*
-    * Input: nums = [0,1,0,3,12]
+    Input: nums = [0,1,0,3,12]
     Output: [1,3,12,0,0]
     */
     vector<int> vTest = { 0,1,0,3,12 };

@@ -27,6 +27,10 @@ public:
 
 		for (int li = 0, ri = 1; li < numbers.size(); ++li, ri = li + 1)
 		{
+			// no need to check for same number
+			if (li != 0 && numbers[li] == numbers[li - 1])
+				continue;
+
 			for (; ri < numbers.size(); ++ri)
 			{
 				if (numbers[li] + numbers[ri] == target)

@@ -18,6 +18,33 @@ class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target)
 	{
+		// aproach:
+		// we iterate over the range [1:n]
+		// two poniters: li, ri
+		// li starting from 0, compares values of ri
+
+		vector<int> result;
+
+		for (int li = 0, ri = 1; li < numbers.size(); ++li, ri = li + 1)
+		{
+			for (; ri < numbers.size(); ++ri)
+			{
+				if (numbers[li] + numbers[ri] == target)
+				{
+					result.push_back(li + 1);
+					result.push_back(ri + 1);
+					return result;				// found
+				}
+				else if (numbers[li] + numbers[ri] > target)
+					break;
+			}
+					
+		}
+
+		// not found
+		result.push_back(-1);
+		result.push_back(-1);
+		return result;
 
     }
 };

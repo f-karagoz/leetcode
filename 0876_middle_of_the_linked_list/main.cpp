@@ -14,6 +14,9 @@ class Solution
 {
     
 public:
+    /*
+    * First solution ( BETTER ONE )
+    
     ListNode* middleNode(ListNode* head)
     {
         int sgn = 0;
@@ -30,7 +33,20 @@ public:
         return result;
 
     }
+    */
 
+    ListNode* middleNode(ListNode* head)
+    {
+        ListNode *slow = head, *fast = head;
+
+        while (fast && fast->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        return slow;
+    }
 };
 
 Solution solution;

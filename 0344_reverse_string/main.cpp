@@ -12,7 +12,14 @@ class Solution {
 public:
 	void reverseString(vector<char>& s)
 	{
-
+		for (int li = 0, ri = s.size() - 1; li < ri; ++li, --ri)
+		{
+			char temp = s[li];
+			s[li] = s[ri];
+			s[ri] = temp;
+		}
+		// time complexity: O(n)
+		// memory complexity: O(1)
 	}
 };
 

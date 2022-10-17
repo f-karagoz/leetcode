@@ -21,22 +21,29 @@ class Solution
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n)
     {
-        ListNode* head_ = head;
-        queue<ListNode*> lastNNodes;
+        if (head->next == NULL)
+            return NULL;
 
-        for (int i = 0; head->next != NULL; ++i)
+        ListNode* restore = head;
+        ListNode* nextToBeRemoved = head;
+
+        int i = 0;
+        while (head != NULL)
         {
-            lastNNodes.push(head);
-
-            // n + 1 elements stored in the queue
-            if (i > n - 1)
-                lastNNodes.pop();
+            if (i <= n)
+                ++i;
+            else
+                nextToBeRemoved = nextToBeRemoved->next;
 
             head = head->next;
         }
 
-        lastNNodes.front()->next = lastNNodes.front()->next->next;
-        return head_;
+        if (i > n)
+            nextToBeRemoved->next = nextToBeRemoved->next->next;
+        else
+            return restore->next;
+
+        return restore;
 
     }
 };
@@ -50,10 +57,10 @@ int main(void)
     Output: [1,2,3,5]
     */
 
-    ListNode node4 = ListNode(5);
-    ListNode node3 = ListNode(4, &node4);
-    ListNode node2 = ListNode(3, &node3);
-    ListNode node1 = ListNode(2, &node2);
+    //ListNode node4 = ListNode(5);
+    //ListNode node3 = ListNode(4, &node4);
+    //ListNode node2 = ListNode(3, &node3);
+    ListNode node1 = ListNode(2);
     ListNode node0 = ListNode(1, &node1); // head
 
     ListNode* test = &node0;

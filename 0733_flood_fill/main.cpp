@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 /*
@@ -18,11 +19,64 @@ Replace the color of all of the aforementioned pixels with color.
 Return the modified image after performing the flood fill.
 */
 
+typedef struct
+{
+    int y;
+    int x;  
+}Coordinates;
+
 class Solution {
 public:
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color)
-    {
+    /*
+    1 1 1   2 2 2
+    1 1 0   2 2 0
+    1 0 1   2 0 1
 
+
+
+    */
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int targetColor)
+    {
+        // sr: y, sc: x, [y][x], [sr][sc]
+
+        if (image[sr][sc] == color)
+            return (image); // No changes done
+        
+        int sourceColor = image[sr][sc];
+
+
+        vector<vector<int>> result;
+        queue<Coordinates> itemsToCheck;
+        itemsToCheck.push({sr,sc});
+
+        while (itemsToCheck.size() != 0)
+        {
+            Coordinates currentCoordinate = itemsToCheck.front();
+            itemsToCheck.pop();
+            if (image[currentCoordinate.y][currentCoordinate.x] == sourceColor)
+            {
+                image[currentCoordinate.y][currentCoordinate.x] = targetColor;
+
+                if (currentCoordinate.y != 0)   // UP
+                {
+                    itemsToCheck.push({ currentCoordinate.y - 1, currentCoordinate.x });
+                }
+                if (currentCoordinate.x != 0)   // LEFT
+                {
+                    itemsToCheck.push({ currentCoordinate.y, currentCoordinate.x - 1 });
+                }
+                if (currentCoordinate.y != sizeOfColumn)   // DOWN
+                {
+                    itemsToCheck.push({ currentCoordinate.y + 1, currentCoordinate.x });
+                }
+                if (currentCoordinate.x != sizeOfRow)   // RIGHT
+                {
+                    itemsToCheck.push({ currentCoordinate.y - 1, currentCoordinate.x + 1 });
+                }
+            }
+        }
+
+        return result;
     }
 };
 
@@ -30,5 +84,32 @@ Solution sol;
 
 int main(void)
 {
+    /*
+    Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+    Output: [[2,2,2],[2,2,0],[2,0,1]]
+    */
+
+    vector<vector<int>> vTest = { {1,1,1} ,{1,1,0},{1,0,1} };
+
+    for (auto y: vTest)
+    {
+        for (auto x : y)
+            cout << x << " ";
+        cout << endl;
+    }
+       
+
+    vector<vector<int>> vResult = sol.floodFill(vTest, 1, 1, 2);
+
+    cout << endl;
+    for (auto y : vResult)
+    {
+        for (auto x : y)
+            cout << x << " ";
+        cout << endl;
+    }
+    cout << endl;
+
+
     return 0;
 }

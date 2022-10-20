@@ -22,7 +22,7 @@ Return the modified image after performing the flood fill.
 typedef struct
 {
     int y;
-    int x;  
+    int x;
 }Coordinates;
 
 class Solution {
@@ -31,48 +31,51 @@ public:
     1 1 1   2 2 2
     1 1 0   2 2 0
     1 0 1   2 0 1
-
-
-
     */
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int targetColor)
     {
+
         // sr: y, sc: x, [y][x], [sr][sc]
 
-        if (image[sr][sc] == color)
+        if (image[sr][sc] == targetColor)
             return (image); // No changes done
-        
+
         int sourceColor = image[sr][sc];
 
+        int sizeOfColumn = image.size();
+        //cout << "row size is: " << rowSize << endl;
+        int sizeOfRow = image[0].size();
+        //cout << "Column size is: " << columnSize << endl;
 
-        vector<vector<int>> result;
+        vector<vector<int>> result = image;
         queue<Coordinates> itemsToCheck;
-        itemsToCheck.push({sr,sc});
+        itemsToCheck.push({ sr,sc });
 
         while (itemsToCheck.size() != 0)
         {
             Coordinates currentCoordinate = itemsToCheck.front();
             itemsToCheck.pop();
-            if (image[currentCoordinate.y][currentCoordinate.x] == sourceColor)
+            if (result[currentCoordinate.y][currentCoordinate.x] == sourceColor)
             {
-                image[currentCoordinate.y][currentCoordinate.x] = targetColor;
+                result[currentCoordinate.y][currentCoordinate.x] = targetColor;
 
-                if (currentCoordinate.y != 0)   // UP
+                if (currentCoordinate.y > 0)   // UP
                 {
                     itemsToCheck.push({ currentCoordinate.y - 1, currentCoordinate.x });
                 }
-                if (currentCoordinate.x != 0)   // LEFT
+                if (currentCoordinate.x > 0)   // LEFT
                 {
                     itemsToCheck.push({ currentCoordinate.y, currentCoordinate.x - 1 });
                 }
-                if (currentCoordinate.y != sizeOfColumn)   // DOWN
+                if (currentCoordinate.y < sizeOfColumn - 1)   // DOWN
                 {
                     itemsToCheck.push({ currentCoordinate.y + 1, currentCoordinate.x });
                 }
-                if (currentCoordinate.x != sizeOfRow)   // RIGHT
+                if (currentCoordinate.x < sizeOfRow - 1)   // RIGHT
                 {
-                    itemsToCheck.push({ currentCoordinate.y - 1, currentCoordinate.x + 1 });
+                    itemsToCheck.push({ currentCoordinate.y, currentCoordinate.x + 1 });
                 }
+
             }
         }
 

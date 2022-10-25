@@ -5,37 +5,18 @@ using namespace std;
 class Solution
 {
 public:
-    int lengthOfLongestSubstring(string s, int windowSize = 1, int longestSize = 0)
+    int lengthOfLongestSubstring(string s, int longestSize = 0)
     {
-        string window;
 
-        for (int i = 0; i < s.size() - 1; i++)
+        for (int li = 0, ri = 0; ri < s.size(); ++ri)
         {
-            
-            window.push_back(s[i]);
 
-            cout << window << endl;
+            for (int i = li; i < ri; ++i)
+                if (s[i] == s[ri]) // duplicate found
+                    li = i + 1;
 
-            int duplicate_found = 0;
-
-            for (int j = 0; j < window.size(); j++)
-                if (s[i + 1] == window[j])
-                    duplicate_found = 1;
-
-            if (!duplicate_found)
-            {
-                windowSize++;
-            }
-                
-            else
-            {
-                window.clear();
-                
-                if (windowSize > longestSize)
-                    longestSize = windowSize;
-
-                windowSize = 0;
-            }
+            if (ri - li + 1 > longestSize)
+                longestSize = ri - li + 1;
 
         }
 
